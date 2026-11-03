@@ -239,8 +239,9 @@ main { min-height: 70vh; }
   .hero-home { padding: 130px 22px 40px; }
   .hero-home p { font-size: 13px; }
   .home-featured { padding: 0 20px 35px; }
-  .featured-card { min-height: 300px; grid-template-columns: 1.1fr .9fr; }
-  .featured-card img { min-height: 300px; }
+  .featured-card { min-height: 0; grid-template-columns: 1fr; grid-template-rows: clamp(190px, 56vw, 280px) auto; }
+  .featured-card img { grid-row: 1; min-height: 0; }
+  .featured-copy { grid-row: 2; }
   .featured-copy { padding: 20px; }
   .featured-copy h2 { margin: 13px 0 18px; font-size: 25px; }
   .carousel-prev { left: 7px; }
