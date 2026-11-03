@@ -3,38 +3,33 @@ import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const featuredPosts = posts.filter((post) => post.data.featured);
+const featuredPosts = posts.filter((post) => post.data.featured).slice(0, 3);
 const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))];
 ---
 
 <MainLayout title="Volleyball. Mit Plan." description="Inspiration, Coaching und Trainingspläne für Volleyballerinnen und Volleyballer, die ihr Spiel bewusst weiterentwickeln wollen.">
   <section class="hero-home">
     <span class="eyebrow">Dein Spiel. Dein nächstes Level.</span>
-    <h1>Spiel nicht nur mit.<br /><em>Rule The Court.</em></h1>
+    <h1>Spiel nicht nur mit.<br /><em>Run The Court.</em></h1>
     <p>Gutes Volleyball beginnt mit guten Entscheidungen. Entdecke Ideen, Wissen und Training, die dich auf dem Feld wirklich weiterbringen.</p>
   </section>
 
-  <section class="home-featured" aria-labelledby="featured-title">
-    <div class="section-heading">
-      <div>
-        <span class="eyebrow">Ausgewählt für dich</span>
-        <h2 id="featured-title">Frische Impulse fürs Spiel</h2>
+  <section class="home-featured" aria-label="Ausgewählte Beiträge">
+    <div class="featured-carousel">
+      <div class="featured-track" id="featured-track" tabindex="0" aria-label="Ausgewählte Beiträge">
+        {featuredPosts.map((post) => (
+          <a class="featured-card" href={`/blog/${post.id}`}>
+            <div class="featured-copy">
+              <span class="tag">{post.data.category}</span>
+              <h2>{post.data.title}</h2>
+              <span class="featured-link">Beitrag entdecken <span aria-hidden="true">↗</span></span>
+            </div>
+            {post.data.image && <img src={post.data.image} alt="" loading="lazy" />}
+          </a>
+        ))}
       </div>
-      <div class="carousel-controls" aria-label="Carousel-Steuerung">
-        <button class="carousel-button" type="button" data-carousel-direction="-1" aria-label="Vorherige Beiträge">←</button>
-        <button class="carousel-button" type="button" data-carousel-direction="1" aria-label="Nächste Beiträge">→</button>
-      </div>
-    </div>
-    <div class="featured-track" id="featured-track" tabindex="0" aria-label="Ausgewählte Beiträge">
-      {featuredPosts.map((post) => (
-        <a class="featured-card" href={`/blog/${post.slug}`}>
-          {post.data.image && <img src={post.data.image} alt="" loading="lazy" />}
-          <div class="featured-copy">
-            <span class="tag">{post.data.category}</span>
-            <h3>{post.data.title}</h3>
-          </div>
-        </a>
-      ))}
+      <button class="carousel-button carousel-prev" type="button" data-carousel-direction="-1" aria-label="Vorherige Beiträge" hidden>←</button>
+      <button class="carousel-button carousel-next" type="button" data-carousel-direction="1" aria-label="Nächste Beiträge" hidden>→</button>
     </div>
   </section>
 
@@ -60,21 +55,20 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
             <div class="text-card">
               <span class="tag">{post.data.category}</span>
               <div class="blog-card-copy">
-                <blockquote><a href={`/blog/${post.slug}`}>{post.data.title}</a></blockquote>
+                <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
                 <p>{post.data.description}</p>
               </div>
-              <div class="blog-meta"><span>{post.data.author}</span><span>·</span><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time></div>
+              <time class="blog-meta" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time>
             </div>
           ) : (
             <>
-              <a class="blog-image" href={`/blog/${post.slug}`} aria-label={`Beitrag lesen: ${post.data.title}`}>
-                {post.data.image && <img src={post.data.image} alt="" loading="lazy" />}
+              <a class="blog-image" href={`/blog/${post.id}`} aria-label={`Beitrag lesen: ${post.data.title}`}>
+                <img src={post.data.image} alt="" loading="lazy" />
               </a>
               <div class="blog-card-copy">
                 <span class="tag">{post.data.category}</span>
-                <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
-                <p>{post.data.description}</p>
-                <div class="blog-meta"><span>{post.data.author}</span><span>·</span><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time></div>
+                <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+                <time class="blog-meta" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time>
               </div>
             </>
           )}
@@ -85,12 +79,27 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
 
   <script>
     const carousel = document.querySelector('#featured-track');
+    const carouselWrapper = carousel?.parentElement;
+    const carouselButtons = document.querySelectorAll<HTMLButtonElement>('[data-carousel-direction]');
+    const updateCarouselControls = () => {
+      if (!carousel) return;
+      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      carouselButtons.forEach((button) => {
+        const direction = Number(button.dataset.carouselDirection);
+        button.hidden = direction < 0 ? carousel.scrollLeft <= 1 : carousel.scrollLeft >= maxScroll - 1;
+      });
+      carouselWrapper?.classList.toggle('is-scrollable', maxScroll > 1);
+    };
+
     document.querySelectorAll('[data-carousel-direction]').forEach((button) => {
       button.addEventListener('click', () => {
         const direction = Number(button.dataset.carouselDirection);
         carousel?.scrollBy({ left: direction * (carousel.clientWidth * 0.8), behavior: 'smooth' });
       });
     });
+    carousel?.addEventListener('scroll', updateCarouselControls, { passive: true });
+    window.addEventListener('resize', updateCarouselControls);
+    updateCarouselControls();
 
     const filterButtons = document.querySelectorAll('[data-filter]');
     const blogCards = document.querySelectorAll('.blog-card[data-category]');

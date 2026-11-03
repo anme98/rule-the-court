@@ -55,7 +55,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
         </div>
         <div class={`nav-group ${path === '/entwicklung' ? 'active' : ''}`}>
           <button class="nav-link nav-trigger" type="button" aria-expanded="false" aria-haspopup="true">
-            Entwicklung <span class="chevron" aria-hidden="true"></span>
+            Spielerentwicklung <span class="chevron" aria-hidden="true"></span>
           </button>
           <div class="nav-dropdown">
             <a href="/entwicklung">Spielerentwicklung <span>Die Grundlagen für dein nächstes Level.</span></a>
@@ -99,7 +99,9 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
       navTriggers.forEach((trigger) => {
         trigger.addEventListener('click', () => {
+          const wasOpen = trigger.getAttribute('aria-expanded') === 'true';
           closeMenus();
+          if (wasOpen) return;
           trigger.setAttribute('aria-expanded', 'true');
           trigger.closest('.nav-group')?.classList.add('open');
         });
