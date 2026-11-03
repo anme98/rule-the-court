@@ -1,2 +1,72 @@
---- import MainLayout from '../layouts/MainLayout.astro'; ---
-<MainLayout title='trainingsplaene'><section class='container'><h1>Trainingsplaene</h1><div class='card'>Inhalt entsprechend dem Master-Prompt.</div></section></MainLayout>
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const resources = [
+  {
+    category: 'Athletik · 20 Minuten',
+    title: 'Sprungkraft mit Kontrolle',
+    description: 'Ein kompakter Einstieg in Sprungtraining: Landungen stabilisieren, Sprungqualität verbessern und Belastung sinnvoll dosieren.',
+    slug: 'plyometrie-sprungkraft',
+    level: 'Einsteigerfreundlich',
+  },
+  {
+    category: 'Aufschlag · 15 Minuten',
+    title: 'Mehr Sicherheit von der Linie',
+    description: 'Eine klare Routine hilft dir, den Aufschlag bewusst vorzubereiten und den Ball mit einer konkreten Absicht ins Spiel zu bringen.',
+    slug: 'aufschlag-crunchtime',
+    level: 'Alle Spielniveaus',
+  },
+  {
+    category: 'Zuspiel · 15 Minuten',
+    title: 'Sauber zum nächsten Angriff',
+    description: 'Arbeite an Fußarbeit und Orientierung, damit du auch aus weniger idealen Annahmen eine spielbare Lösung machst.',
+    slug: 'zuspieler-manual',
+    level: 'Alle Spielniveaus',
+  },
+];
+const availableSlugs = new Set(posts.map((post) => post.slug));
+---
+
+<MainLayout title="Trainingspläne" description="Praktische Volleyball-Trainingspläne und Einheiten für Technik, Athletik und Spielverständnis.">
+  <section class="plans-hero">
+    <div class="plans-hero-inner">
+      <div>
+        <span class="eyebrow">Weniger suchen. Mehr trainieren.</span>
+        <h1>Ein guter Plan bringt dich ins Spiel.</h1>
+        <p>Kurze, fokussierte Einheiten für echte Volleyballziele. Such dir einen Schwerpunkt aus, passe die Belastung an dich an und trainiere mit einer klaren Idee.</p>
+      </div>
+      <aside class="plans-hero-aside">
+        <strong>So nutzt du die Einheiten</strong>
+        <span>Starte mit einem Schwerpunkt. Achte auf saubere Ausführung und nimm dir zwischen intensiven Einheiten genug Zeit zur Erholung.</span>
+      </aside>
+    </div>
+  </section>
+
+  <section class="plans-layout">
+    <div class="plans-sticky">
+      <span class="eyebrow">Dein Trainingsbereich</span>
+      <h2>Kleine Schritte.<br />Spürbarer Fortschritt.</h2>
+      <p>Die Einheiten sind bewusst kompakt. Nutze sie als Ergänzung zu deinem Teamtraining und wähle die Variante, die zu deinem aktuellen Level passt.</p>
+      <a class="button button-blue" href="/entwicklung">Entwicklung verstehen <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="plan-list">
+      {resources.filter((resource) => availableSlugs.has(resource.slug)).map((resource) => (
+        <article class="plan-card">
+          <div class="plan-card-top"><span class="tag">{resource.category}</span><span class="plan-meta">{resource.level}</span></div>
+          <h3>{resource.title}</h3>
+          <p>{resource.description}</p>
+          <a class="text-link" href={`/blog/${resource.slug}`}>Einheit ansehen <span aria-hidden="true">↗</span></a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="plans-callout">
+    <div class="plans-callout-inner">
+      <div><h2>Du willst dein Spiel besser verstehen?</h2><p>Entdecke Coaching-Impulse und die Grundlagen hinter bewusstem Training.</p></div>
+      <a class="button button-blue" href="/coaching">Zum Coaching <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</MainLayout>

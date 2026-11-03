@@ -1,5 +1,107 @@
---- import MainLayout from '../layouts/MainLayout.astro'; ---
-<MainLayout title='Run The Court'>
-<section class='hero'><h1 style='font-size:4rem'>Run The Court</h1><p>Volleyball Coaching, Entwicklung & Trainingspläne</p></section>
-<section class='container'><h2>Featured Beiträge</h2><div class='grid'><div class='card'>Plyometrie</div><div class='card'>Aufschlag</div><div class='card'>Zuspiel</div></div></section>
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featuredPosts = posts.filter((post) => post.data.featured);
+const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))];
+---
+
+<MainLayout title="Volleyball. Mit Plan." description="Inspiration, Coaching und Trainingspläne für Volleyballerinnen und Volleyballer, die ihr Spiel bewusst weiterentwickeln wollen.">
+  <section class="hero-home">
+    <span class="eyebrow">Dein Spiel. Dein nächstes Level.</span>
+    <h1>Spiel nicht nur mit.<br /><em>Rule The Court.</em></h1>
+    <p>Gutes Volleyball beginnt mit guten Entscheidungen. Entdecke Ideen, Wissen und Training, die dich auf dem Feld wirklich weiterbringen.</p>
+  </section>
+
+  <section class="home-featured" aria-labelledby="featured-title">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Ausgewählt für dich</span>
+        <h2 id="featured-title">Frische Impulse fürs Spiel</h2>
+      </div>
+      <div class="carousel-controls" aria-label="Carousel-Steuerung">
+        <button class="carousel-button" type="button" data-carousel-direction="-1" aria-label="Vorherige Beiträge">←</button>
+        <button class="carousel-button" type="button" data-carousel-direction="1" aria-label="Nächste Beiträge">→</button>
+      </div>
+    </div>
+    <div class="featured-track" id="featured-track" tabindex="0" aria-label="Ausgewählte Beiträge">
+      {featuredPosts.map((post) => (
+        <a class="featured-card" href={`/blog/${post.slug}`}>
+          {post.data.image && <img src={post.data.image} alt="" loading="lazy" />}
+          <div class="featured-copy">
+            <span class="tag">{post.data.category}</span>
+            <h3>{post.data.title}</h3>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="journal" aria-labelledby="journal-title">
+    <div class="journal-top">
+      <div>
+        <span class="eyebrow">Das Journal</span>
+        <h2 id="journal-title">Wissen für dein nächstes Level.</h2>
+      </div>
+      <span class="blog-meta">{posts.length} Beiträge zum Entdecken</span>
+    </div>
+    <div class="category-filters" aria-label="Beiträge nach Kategorie filtern">
+      {categories.map((category, index) => (
+        <button class="filter-button" type="button" data-filter={index === 0 ? 'all' : category} aria-pressed={index === 0 ? 'true' : 'false'}>
+          {category}
+        </button>
+      ))}
+    </div>
+    <div class="blog-grid" id="blog-grid">
+      {posts.map((post) => (
+        <article class={post.data.isTextOnly ? 'blog-card text-only-card' : 'blog-card'} data-category={post.data.category}>
+          {post.data.isTextOnly ? (
+            <div class="text-card">
+              <span class="tag">{post.data.category}</span>
+              <div class="blog-card-copy">
+                <blockquote><a href={`/blog/${post.slug}`}>{post.data.title}</a></blockquote>
+                <p>{post.data.description}</p>
+              </div>
+              <div class="blog-meta"><span>{post.data.author}</span><span>·</span><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time></div>
+            </div>
+          ) : (
+            <>
+              <a class="blog-image" href={`/blog/${post.slug}`} aria-label={`Beitrag lesen: ${post.data.title}`}>
+                {post.data.image && <img src={post.data.image} alt="" loading="lazy" />}
+              </a>
+              <div class="blog-card-copy">
+                <span class="tag">{post.data.category}</span>
+                <h3><a href={`/blog/${post.slug}`}>{post.data.title}</a></h3>
+                <p>{post.data.description}</p>
+                <div class="blog-meta"><span>{post.data.author}</span><span>·</span><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time></div>
+              </div>
+            </>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    const carousel = document.querySelector('#featured-track');
+    document.querySelectorAll('[data-carousel-direction]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const direction = Number(button.dataset.carouselDirection);
+        carousel?.scrollBy({ left: direction * (carousel.clientWidth * 0.8), behavior: 'smooth' });
+      });
+    });
+
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const blogCards = document.querySelectorAll('.blog-card[data-category]');
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.filter;
+        filterButtons.forEach((filter) => filter.setAttribute('aria-pressed', String(filter === button)));
+        blogCards.forEach((card) => {
+          card.hidden = category !== 'all' && card.dataset.category !== category;
+        });
+      });
+    });
+  </script>
 </MainLayout>

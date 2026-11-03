@@ -1,2 +1,60 @@
---- import MainLayout from '../layouts/MainLayout.astro'; ---
-<MainLayout title='coaching'><section class='container'><h1>Coaching</h1><div class='card'>Inhalt entsprechend dem Master-Prompt.</div></section></MainLayout>
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Coaching" description="Persönliches Volleyball-Coaching mit klarer Analyse, konkreten Impulsen und einem Plan für dein Spiel.">
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow">Coaching, das aufs Feld passt</span>
+      <h1>Weniger raten.<br />Bewusster spielen.</h1>
+      <p>Wir verbinden ehrliches Feedback mit einem klaren Blick aufs Spiel. Damit aus guten Vorsätzen konkrete Schritte werden – im Training und im nächsten Ballwechsel.</p>
+      <a class="button button-blue" href="#formate">Coaching entdecken <span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+
+  <section class="editorial-section">
+    <div class="editorial-inner">
+      <article class="editorial-row">
+        <div class="editorial-image">
+          <img src="https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=1200&q=85" alt="Volleyballteam bespricht die nächste Spielsituation" loading="lazy" />
+        </div>
+        <div class="editorial-copy">
+          <span class="eyebrow">01 / Klarheit</span>
+          <h2>Erst verstehen, dann verändern.</h2>
+          <p>Gute Entwicklung startet nicht mit zehn neuen Übungen, sondern mit den richtigen Fragen. Wo stehst du gerade? Was funktioniert schon? Und welche Veränderung hätte den größten Effekt?</p>
+          <ul><li>Deine Ziele und Rolle im Team verstehen</li><li>Stärken sichtbar machen und gezielt nutzen</li><li>Wenige, klare Schwerpunkte setzen</li></ul>
+        </div>
+      </article>
+
+      <article class="editorial-row reverse">
+        <div class="editorial-image">
+          <img src="https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=85" alt="Volleyballspielerinnen und Volleyballspieler trainieren gemeinsam" loading="lazy" />
+        </div>
+        <div class="editorial-copy">
+          <span class="eyebrow">02 / Umsetzung</span>
+          <h2>Aus Einsicht wird Spielpraxis.</h2>
+          <p>Technik ist nur dann hilfreich, wenn sie im richtigen Moment verfügbar ist. Wir übersetzen Beobachtungen in einfache Trainingsaufgaben, die du mit deinem Team wiederholen und im Spiel abrufen kannst.</p>
+          <ul><li>Konkrete nächste Schritte statt allgemeiner Tipps</li><li>Übungen mit Bezug zu echten Spielsituationen</li><li>Fortschritt regelmäßig reflektieren</li></ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="quote-band">
+    <span class="eyebrow">Unsere Haltung</span>
+    <blockquote>„Die beste Lösung ist nicht die komplizierteste. Sondern die, die du im entscheidenden Moment abrufen kannst.“</blockquote>
+    <p>Rule The Court · Coaching-Philosophie</p>
+  </section>
+
+  <section class="formats" id="formate">
+    <div class="formats-inner">
+      <span class="eyebrow">Zusammenarbeit</span>
+      <h2>Ein guter Start. Ein klarer Plan.</h2>
+      <div class="format-grid">
+        <article class="format-card"><span class="number">01</span><h3>Spielanalyse</h3><p>Wir sortieren deine Fragen, schauen auf konkrete Spielsituationen und finden den Hebel mit dem größten Potenzial.</p></article>
+        <article class="format-card"><span class="number">02</span><h3>Trainingsimpuls</h3><p>Du bekommst einen überschaubaren Schwerpunkt und passende Ideen, die sich direkt ins Teamtraining übertragen lassen.</p></article>
+        <article class="format-card"><span class="number">03</span><h3>Review &amp; nächste Schritte</h3><p>Wir prüfen, was sich verändert hat, und passen den Fokus an dein Tempo und deine Ziele an.</p></article>
+      </div>
+    </div>
+  </section>
+</MainLayout>
