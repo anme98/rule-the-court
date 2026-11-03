@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const formattedDate = post.data.pubDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<MainLayout title={post.data.title} description={post.data.description}>
+  <article class="article">
+    <header class="article-header">
+      <span class="tag">{post.data.category}</span>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.description}</p>
+      <div class="blog-meta" style="justify-content: center">
+        <span>Von {post.data.author}</span><span>·</span>
+        <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+      </div>
+    </header>
+    {post.data.image && (
+      <div class="article-image">
+        <img src={post.data.image} alt={`Volleyball: ${post.data.title}`} />
+      </div>
+    )}
+    <div class="article-body"><Content /></div>
+    <footer class="article-footer">
+      <span>Ein Impuls von {post.data.author}</span>
+      <a href="/trainingsplaene">Mehr Trainingspläne <span aria-hidden="true">↗</span></a>
+    </footer>
+  </article>
+</MainLayout>
