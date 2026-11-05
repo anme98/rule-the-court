@@ -49,27 +49,17 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
     </div>
     <div class="blog-grid" id="blog-grid">
       {posts.map((post) => (
-        <article class={post.data.isTextOnly ? 'blog-card text-only-card' : 'blog-card'} data-category={post.data.category}>
-          {post.data.isTextOnly ? (
-            <div class="text-card">
-              <span class="tag">{post.data.category}</span>
-              <div class="blog-card-copy">
-                <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
-              </div>
-              <time class="blog-meta" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time>
-            </div>
-          ) : (
-            <>
-              <a class="blog-image" href={`/blog/${post.id}`} aria-label={`Beitrag lesen: ${post.data.title}`}>
-                <img src={post.data.image} alt="" loading="lazy" />
-              </a>
-              <div class="blog-card-copy">
-                <span class="tag">{post.data.category}</span>
-                <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
-                <time class="blog-meta" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time>
-              </div>
-            </>
+        <article class={`blog-card${post.data.isTextOnly || !post.data.image ? ' text-only-card' : ''}`} data-category={post.data.category}>
+          {!post.data.isTextOnly && post.data.image && (
+            <a class="blog-image" href={`/blog/${post.id}`} aria-label={`Beitrag lesen: ${post.data.title}`}>
+              <img src={post.data.image} alt="" loading="lazy" />
+            </a>
           )}
+          <div class="blog-card-copy">
+            <span class="tag">{post.data.category}</span>
+            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <time class="blog-meta" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time>
+          </div>
         </article>
       ))}
     </div>
@@ -188,6 +178,18 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
           (card as HTMLElement).hidden = category !== 'all' && (card as HTMLElement).dataset.category !== category;
         });
       });
+    });
+
+    function showTextOnlyCard(image: HTMLImageElement): void {
+      const card = image.closest<HTMLElement>('.blog-card');
+      if (!card) return;
+      card.classList.add('text-only-card');
+      image.closest('.blog-image')?.remove();
+    }
+
+    document.querySelectorAll<HTMLImageElement>('#blog-grid .blog-image img').forEach((image) => {
+      image.addEventListener('error', () => showTextOnlyCard(image), { once: true });
+      if (image.complete && image.naturalWidth === 0) showTextOnlyCard(image);
     });
   </script>
 </MainLayout>
