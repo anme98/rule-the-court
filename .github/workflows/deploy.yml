@@ -1,23 +1,22 @@
-name: Build and deploy website
+name: Deploy to Strato
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: strato-deploy
-  cancel-in-progress: false
+  group: deploy-rsync
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
-      - name: Check out repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -32,13 +31,32 @@ jobs:
       - name: Build website
         run: npm run build
 
-      - name: Deploy to STRATO
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.STRATO_FTP_SERVER }}
-          username: ${{ secrets.STRATO_FTP_USERNAME }}
-          password: ${{ secrets.STRATO_FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: dist/
-          server-dir: ${{ vars.STRATO_FTP_SERVER_DIR || '/htdocs/' }}
+      - name: Install SSH deployment tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq openssh-client rsync sshpass
+
+      - name: Setup SSH known_hosts
+        env:
+          STRATO_SERVER: ${{ vars.STRATO_SERVER }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -p 22 "$STRATO_SERVER" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy with rsync over SSH
+        env:
+          SSHPASS: ${{ secrets.STRATO_SSH_PASSWORD }}
+          STRATO_SERVER: ${{ vars.STRATO_SERVER }}
+          STRATO_SSH_USERNAME: ${{ vars.STRATO_SSH_USERNAME }}
+          STRATO_SERVER_DIR: ${{ vars.STRATO_SERVER_DIR || './htdocs/' }}
+        run: |
+          sshpass -e rsync \
+            --checksum \
+            --chmod=D755,F644 \
+            --compress \
+            --delete \
+            --perms \
+            --recursive \
+            --rsh="ssh -p 22 -o StrictHostKeyChecking=yes" \
+            --verbose \
+            dist/ "${STRATO_SSH_USERNAME}@${STRATO_SERVER}:${STRATO_SERVER_DIR}"
