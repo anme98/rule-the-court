@@ -202,6 +202,7 @@ img {
   background: var(--blue-light);
 }
 .nav-group { position: relative; }
+.nav-group > .nav-link { white-space: nowrap; }
 .chevron { width: 6px; height: 6px; margin: -3px 0 0 9px; transform: rotate(45deg); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transition: transform .2s ease; }
 .nav-group.open .chevron { margin-top: 3px; transform: rotate(225deg); }
 .nav-dropdown {
@@ -809,6 +810,7 @@ main { min-height: 70vh; }
 .article-footer a span { color: var(--yellow-dark); }
 
 @media (max-width: 900px) {
+  .header-actions { margin-left: auto; }
   .menu-toggle { display: grid; width: 40px; height: 40px; place-content: center; gap: 5px; margin-left: 8px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
   .menu-toggle span:not(.sr-only) { width: 18px; height: 1.5px; background: currentColor; }
   .primary-navigation {
