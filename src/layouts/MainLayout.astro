@@ -16,7 +16,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f8f8f6" />
+    <meta name="theme-color" content="#ffffff" />
     <title>{title} | Rule The Court</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
@@ -36,11 +36,6 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
         </span>
         <span class="brand-name">Rule The Court</span>
       </a>
-
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
-        <span></span><span></span>
-        <span class="sr-only">Menü öffnen</span>
-      </button>
 
       <nav class="primary-navigation" id="primary-navigation" aria-label="Hauptnavigation">
         <a class={`nav-link ${path === '/' ? 'active' : ''}`} href="/">Startseite</a>
@@ -62,10 +57,24 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
             <a href="/entwicklung#bereiche">Unsere Schwerpunkte <span>Technik, Athletik und Spielintelligenz.</span></a>
           </div>
         </div>
-        <a class={`nav-link nav-mobile-plans ${path === '/trainingsplaene' ? 'active' : ''}`} href="/trainingsplaene">Trainingspläne</a>
+        <div class={`nav-group ${path === '/ueber-uns' ? 'active' : ''}`}>
+          <button class="nav-link nav-trigger" type="button" aria-expanded="false" aria-haspopup="true">
+            Über uns <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="/ueber-uns">Unsere Mission <span>Volleyball mit System und Leidenschaft.</span></a>
+            <a href="/ueber-uns#werte">Werte &amp; Haltung <span>Woran wir glauben und wie wir arbeiten.</span></a>
+          </div>
+        </div>
       </nav>
 
-      <a class="button button-blue header-cta" href="/trainingsplaene">Trainingspläne <span aria-hidden="true">↗</span></a>
+      <div class="header-actions">
+        <a class="button button-blue header-cta" href="/trainingsplaene">Trainingspläne <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+          <span></span><span></span>
+          <span class="sr-only">Menü öffnen</span>
+        </button>
+      </div>
     </header>
 
     <main>
