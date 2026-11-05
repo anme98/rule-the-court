@@ -55,7 +55,6 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
               <span class="tag">{post.data.category}</span>
               <div class="blog-card-copy">
                 <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
-                <p>{post.data.description}</p>
               </div>
               <time class="blog-meta" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('de-DE')}</time>
             </div>
