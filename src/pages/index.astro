@@ -3,14 +3,14 @@ import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const featuredPosts = posts.filter((post) => post.data.featured).slice(0, 3);
+const featuredPosts = posts.filter((post) => post.data.featured).slice(0, 4);
 const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))];
 ---
 
 <MainLayout title="Volleyball. Mit Plan." description="Inspiration, Coaching und Trainingspläne für Volleyballerinnen und Volleyballer, die ihr Spiel bewusst weiterentwickeln wollen.">
   <section class="hero-home">
     <span class="eyebrow">Dein Spiel. Dein nächstes Level.</span>
-    <h1>Spiel nicht nur mit.<br /><em>Run The Court.</em></h1>
+    <h1><em>Rule The Court.</em></h1>
     <p>Gutes Volleyball beginnt mit guten Entscheidungen. Entdecke Ideen, Wissen und Training, die dich auf dem Feld wirklich weiterbringen.</p>
   </section>
 
@@ -22,7 +22,6 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
             <div class="featured-copy">
               <span class="tag">{post.data.category}</span>
               <h2>{post.data.title}</h2>
-              <span class="featured-link">Beitrag entdecken <span aria-hidden="true">↗</span></span>
             </div>
             {post.data.image && <img src={post.data.image} alt="" loading="lazy" />}
           </a>
@@ -78,37 +77,116 @@ const categories = ['Alle', ...new Set(posts.map((post) => post.data.category))]
   </section>
 
   <script>
-    const carousel = document.querySelector('#featured-track');
-    const carouselWrapper = carousel?.parentElement;
-    const carouselButtons = document.querySelectorAll<HTMLButtonElement>('[data-carousel-direction]');
-    const updateCarouselControls = () => {
-      if (!carousel) return;
-      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-      carouselButtons.forEach((button) => {
-        const direction = Number(button.dataset.carouselDirection);
-        button.hidden = direction < 0 ? carousel.scrollLeft <= 1 : carousel.scrollLeft >= maxScroll - 1;
-      });
-      carouselWrapper?.classList.toggle('is-scrollable', maxScroll > 1);
-    };
+    // ── Transform-based carousel ──────────────────────────────────────────────
+    const track = document.querySelector<HTMLElement>('#featured-track');
+    if (track) {
+      const cards = Array.from(track.children) as HTMLElement[];
+      const total = cards.length;
+      let current = 0;
+      let animating = false;
 
-    document.querySelectorAll('[data-carousel-direction]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const direction = Number(button.dataset.carouselDirection);
-        carousel?.scrollBy({ left: direction * (carousel.clientWidth * 0.8), behavior: 'smooth' });
-      });
-    });
-    carousel?.addEventListener('scroll', updateCarouselControls, { passive: true });
-    window.addEventListener('resize', updateCarouselControls);
-    updateCarouselControls();
+      // Returns the layout position of a card relative to the track start.
+      // We use offsetLeft (unaffected by CSS transforms) rather than computing
+      // i * step, which accumulates sub-pixel rounding errors across cards.
+      // Note: cards' offsetParent is .featured-carousel (position:relative),
+      // and track.offsetLeft is 0, so card.offsetLeft == card's position in track.
+      function cardLayoutLeft(index: number): number {
+        return (cards[index] as HTMLElement).offsetLeft - track.offsetLeft;
+      }
 
+      function isMobileView(): boolean {
+        return window.matchMedia('(max-width: 768px)').matches;
+      }
+
+      function getOffset(index: number): number {
+        const trackW = track.offsetWidth;
+        const cardW  = (cards[index] as HTMLElement).offsetWidth;
+        const left   = cardLayoutLeft(index);
+
+        if (isMobileView()) {
+          // Auf Mobile: genau ein Slide im View, kein Peek
+          return -left;
+        }
+
+        if (index === 0) {
+          // Flush left – first card at 0
+          return 0;
+        } else if (index === total - 1) {
+          // Flush right – last card's right edge == track right edge
+          return -(left - (trackW - cardW));
+        } else {
+          // Middle – show 40% of the previous card as a peek on the left
+          const peek = (cards[index - 1] as HTMLElement).offsetWidth * 0.40;
+          return -(left - peek);
+        }
+      }
+
+      function goTo(index: number, smooth = true): void {
+        if (animating && smooth) return;
+        if (index < 0) index = total - 1;
+        if (index >= total) index = 0;
+        current = index;
+
+        track.style.transition = smooth
+          ? 'transform .45s cubic-bezier(.4,0,.2,1)'
+          : 'none';
+        track.style.transform = `translateX(${getOffset(current)}px)`;
+        if (smooth) animating = true;
+      }
+
+      track.addEventListener('transitionend', () => { animating = false; });
+
+      // Double rAF ensures layout is complete before we read dimensions
+      requestAnimationFrame(() => { requestAnimationFrame(() => goTo(0, false)); });
+
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => goTo(current, false), 50);
+      });
+
+      // Touch swipe support on mobile
+      let touchStartX = 0;
+      let touchStartY = 0;
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
+        const deltaY = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (deltaX < 0) {
+            goTo(current + 1);
+          } else {
+            goTo(current - 1);
+          }
+        }
+      }, { passive: true });
+
+      document.querySelectorAll('[data-carousel-direction]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const dir = Number((btn as HTMLElement).dataset.carouselDirection);
+          goTo(current + dir);
+        });
+      });
+
+      // Always show both buttons (infinite loop)
+      document.querySelectorAll<HTMLButtonElement>('[data-carousel-direction]').forEach((b) => {
+        b.hidden = false;
+      });
+    }
+
+    // ── Blog filter ──────────────────────────────────────────────────────────
     const filterButtons = document.querySelectorAll('[data-filter]');
     const blogCards = document.querySelectorAll('.blog-card[data-category]');
     filterButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const category = button.dataset.filter;
+        const category = (button as HTMLElement).dataset.filter;
         filterButtons.forEach((filter) => filter.setAttribute('aria-pressed', String(filter === button)));
         blogCards.forEach((card) => {
-          card.hidden = category !== 'all' && card.dataset.category !== category;
+          (card as HTMLElement).hidden = category !== 'all' && (card as HTMLElement).dataset.category !== category;
         });
       });
     });

@@ -1,10 +1,11 @@
 ---
 title: "Kommunikation im Volleyball: kurz, früh und hilfreich"
 description: Einfache Zurufe geben Orientierung, wenn sie rechtzeitig kommen und zur gemeinsamen Absprache passen.
+featured: true
 category: Team & Kopf
 pubDate: 2026-10-01
 author: Rule The Court
-image: https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1400&q=85
+image: https://images.unsplash.com/photo-1529516548873-9ce57c8f155e?auto=format&fit=crop&w=1400&q=85
 ---
 
 Kommunikation soll das Spiel leichter machen, nicht lauter. Ein kurzer Zuruf zur richtigen Zeit kann Unsicherheit vermeiden und dem Team helfen, den nächsten Kontakt vorzubereiten.

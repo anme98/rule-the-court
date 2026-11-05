@@ -4,7 +4,7 @@ description: Mit einer stabilen Ausgangsposition und klaren Absprachen wird die 
 category: Technik
 pubDate: 2026-10-20
 author: Coach Alex
-image: https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1400&q=85
+image: https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=1400&q=85
 featured: true
 ---
 

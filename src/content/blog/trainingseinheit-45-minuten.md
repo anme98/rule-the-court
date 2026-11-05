@@ -4,7 +4,7 @@ description: Ein kompakter Trainingsrahmen mit klaren Schwerpunkten, ausreichend
 category: Trainingsplanung
 pubDate: 2026-10-06
 author: Coach Alex
-image: https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=1400&q=85
+image: https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&w=1400&q=85
 ---
 
 Eine gute Einheit braucht nicht möglichst viele Übungen. Entscheide dich für einen Schwerpunkt und plane genug Wiederholungen ein, in denen die gewünschte Spielsituation wirklich vorkommt.

@@ -4,7 +4,7 @@ description: Wenn Block und Abwehr dieselbe Lösung verfolgen, wird aus individu
 category: Spielverständnis
 pubDate: 2026-10-14
 author: Coach Alex
-image: https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=1400&q=85
+image: https://images.unsplash.com/photo-1543357486-984f1dc4b63e?auto=format&fit=crop&w=1400&q=85
 ---
 
 Block und Feldabwehr funktionieren am besten, wenn beide dieselben Räume im Blick haben. Dafür braucht es keine komplizierten Zeichen – eine klare Absprache vor dem Aufschlag reicht oft aus.
