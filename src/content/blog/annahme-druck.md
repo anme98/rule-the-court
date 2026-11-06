@@ -3,7 +3,7 @@ title: "Annahme unter Druck: ruhig bleiben und klar spielen"
 description: Mit einer stabilen Ausgangsposition und klaren Absprachen wird die Annahme auch in engen Spielphasen verlässlicher.
 category: Technik
 pubDate: 2026-10-20
-author: Coach Alex
+author: Spieler Anel
 image: /images/volleyball-annahme.jpg
 imageAlt: Volleyballteam bereitet in der Halle die Annahme eines Aufschlags vor.
 featured: true

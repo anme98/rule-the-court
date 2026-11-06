@@ -3,7 +3,7 @@ title: "Block und Feldabwehr: als Einheit verteidigen"
 description: Wenn Block und Abwehr dieselbe Lösung verfolgen, wird aus individueller Reaktion ein klarer gemeinsamer Plan.
 category: Spielverständnis
 pubDate: 2026-10-14
-author: Coach Alex
+author: Spieler Anel
 image: /images/volleyball-block.jpg
 imageAlt: Volleyballangreifer spielt gegen den Block der gegnerischen Mannschaft.
 ---

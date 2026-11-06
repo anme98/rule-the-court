@@ -48,7 +48,7 @@ jobs:
           SSHPASS: ${{ secrets.STRATO_SSH_PASSWORD }}
           STRATO_SERVER: ${{ vars.STRATO_SERVER }}
           STRATO_SSH_USERNAME: ${{ vars.STRATO_SSH_USERNAME }}
-          STRATO_SERVER_DIR: ${{ vars.STRATO_SERVER_DIR || './htdocs/' }}
+          STRATO_SERVER_DIR: ${{ vars.STRATO_SERVER_DIR || './rule-the-court/' }}
         run: |
           sshpass -e rsync \
             --checksum \

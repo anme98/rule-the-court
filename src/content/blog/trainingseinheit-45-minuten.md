@@ -3,7 +3,7 @@ title: "Eine fokussierte Volleyball-Einheit in 45 Minuten"
 description: Ein kompakter Trainingsrahmen mit klaren Schwerpunkten, ausreichend Bewegung und Zeit für einen kurzen Rückblick.
 category: Trainingsplanung
 pubDate: 2026-10-06
-author: Coach Alex
+author: Spieler Anel
 image: /images/volleyball-warmup.jpg
 imageAlt: Volleyballteam trainiert gemeinsam mit Ball und Netz in der Halle.
 ---

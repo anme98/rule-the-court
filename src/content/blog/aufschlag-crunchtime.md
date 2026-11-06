@@ -3,7 +3,7 @@ title: "Aufschlag in der Crunchtime: Eine Routine, die trägt"
 description: Mit einer wiederholbaren Pre-Serve-Routine bringst du Ruhe, Fokus und eine klare Absicht an die Aufschlaglinie.
 category: Technik
 pubDate: 2026-10-08
-author: Coach Alex
+author: Spieler Anel
 image: /images/volleyball-aufschlag.jpg
 imageAlt: Volleyballspieler springt in einer Halle zum Aufschlag hoch.
 featured: true

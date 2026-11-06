@@ -3,7 +3,7 @@ title: "Plyometrie: Mehr Höhe am Netz"
 description: Ein smarter Einstieg in plyometrisches Training für mehr Sprungkraft, stabile Landungen und explosive Aktionen.
 category: Athletik
 pubDate: 2026-10-12
-author: Coach Alex
+author: Spieler Anel
 image: /images/volleyball-sprungkraft.jpg
 imageAlt: Volleyballspielerin springt in der Halle zum Angriff am Netz.
 featured: true
