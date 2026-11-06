@@ -25,7 +25,7 @@ const formattedDate = post.data.pubDate.toLocaleDateString('de-DE', { day: 'nume
     </header>
     {post.data.image && (
       <div class="article-image">
-        <img src={post.data.image} alt={`Volleyball: ${post.data.title}`} />
+        <img src={post.data.image} alt={post.data.imageAlt ?? `Volleyball: ${post.data.title}`} />
       </div>
     )}
     <div class="article-body"><Content /></div>

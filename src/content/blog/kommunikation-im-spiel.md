@@ -5,7 +5,8 @@ featured: true
 category: Team & Kopf
 pubDate: 2026-10-01
 author: Rule The Court
-image: https://images.unsplash.com/photo-1529516548873-9ce57c8f155e?auto=format&fit=crop&w=1400&q=85
+image: /images/volleyball-team-huddle.jpg
+imageAlt: Volleyballteam legt beim Huddle die Hände zusammen.
 ---
 
 Kommunikation soll das Spiel leichter machen, nicht lauter. Ein kurzer Zuruf zur richtigen Zeit kann Unsicherheit vermeiden und dem Team helfen, den nächsten Kontakt vorzubereiten.
