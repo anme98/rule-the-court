@@ -4,7 +4,8 @@ description: Kleine Anpassungen vor dem Angriff schaffen mehr Zeit für eine kon
 category: Spielverständnis
 pubDate: 2026-10-10
 author: Rule The Court
-image: https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1400&q=85
+image: /images/volleyball-abwehr.jpg
+imageAlt: Volleyballspieler nimmt in der Abwehr eine tiefe Position ein.
 ---
 
 Eine gute Abwehrposition ist kein fester Punkt auf dem Feld. Sie verändert sich mit dem Zuspiel, der Anlaufbahn und den Optionen der angreifenden Person.

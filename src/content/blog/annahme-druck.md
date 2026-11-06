@@ -4,7 +4,8 @@ description: Mit einer stabilen Ausgangsposition und klaren Absprachen wird die 
 category: Technik
 pubDate: 2026-10-20
 author: Coach Alex
-image: https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=1400&q=85
+image: /images/volleyball-annahme.jpg
+imageAlt: Volleyballteam bereitet in der Halle die Annahme eines Aufschlags vor.
 featured: true
 ---
 

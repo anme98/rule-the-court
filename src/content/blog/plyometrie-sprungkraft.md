@@ -4,7 +4,8 @@ description: Ein smarter Einstieg in plyometrisches Training für mehr Sprungkra
 category: Athletik
 pubDate: 2026-10-12
 author: Coach Alex
-image: https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1400&q=85
+image: /images/volleyball-sprungkraft.jpg
+imageAlt: Volleyballspielerin springt in der Halle zum Angriff am Netz.
 featured: true
 ---
 

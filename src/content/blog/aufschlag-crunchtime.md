@@ -4,7 +4,8 @@ description: Mit einer wiederholbaren Pre-Serve-Routine bringst du Ruhe, Fokus u
 category: Technik
 pubDate: 2026-10-08
 author: Coach Alex
-image: https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?auto=format&fit=crop&w=1400&q=85
+image: /images/volleyball-aufschlag.jpg
+imageAlt: Volleyballspieler springt in einer Halle zum Aufschlag hoch.
 featured: true
 ---
 
